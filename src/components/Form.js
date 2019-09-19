@@ -1,14 +1,34 @@
-import React from "react";
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React, {useState} from "react";
+import { Formik, Form, Field, ErrorMessage, setNestedObjectValues } from 'formik';
 import * as yup from 'yup';
 import axios from "axios";
 
 export default function FormikForm(props) {
+    const [users, setUsers] = useState([]);
+    
     const initialValues = {
         name: "",
         email: "",
         password: "",
     }
+
+    const onSubmit = (formValues, actions) => {
+        const userToPost = {
+            name: formValues.name,
+            email: formValues.email,
+            password: formValues.password,
+        };
+    
+        axios.post("https://reqres.in/api/users", userToPost)
+            .then(response => {
+                console.log(response.data);
+                setUsers(users.concat([response.data]));
+                actions.resetForm();
+            })
+            .catch(error => {
+                debugger
+            })
+    };
 
     return (
         <Formik
@@ -17,52 +37,50 @@ export default function FormikForm(props) {
             validationSchema={validationSchema}
             render={props => {
                 return(
-                    <Form>
+                    <>
+                        <Form>
+                            <div>
+                                <Field name="name" type="text" placeholder="Name" />
+                                <ErrorMessage name='name' component='div' />
+                            </div>
+                            <div>
+                                <Field name="email" type="text" placeholder="Email" />
+                                <ErrorMessage name='email' component='div' />
+                            </div>
+                            <div>
+                                <Field name="password" type="password" placeholder="Password" />
+                                <ErrorMessage name='password' component='div' />
+                            </div>
+                            <div>
+                                I agree to the Terms of Service
+                                <Field name="ToS" type="checkbox"/>
+                                <ErrorMessage name='ToS' component='div' />
+                                {/* To-Do: This error isn't showing... */}
+                            </div>
+                            <button type="submit">Submit</button>
+                        </Form>
                         <div>
-                            <Field name="name" type="text" placeholder="Name" />
-                            <ErrorMessage name='name' component='div' />
+                            {
+                                users.map(user => (
+                                    <div key={user.id}>
+                                        <span>User: {user.name}. </span>
+                                        <span>Email: {user.email}. </span>
+                                        <span>Id: {user.id}. </span>
+                                    </div>
+                                ))
+                            }
                         </div>
-                        <div>
-                            <Field name="email" type="text" placeholder="Email" />
-                            <ErrorMessage name='email' component='div' />
-                        </div>
-                        <div>
-                            <Field name="password" type="password" placeholder="Password" />
-                            <ErrorMessage name='password' component='div' />
-                        </div>
-                        <div>
-                            I agree to the Terms of Service
-                            <Field name="ToS" type="checkbox"/>
-                            <ErrorMessage name='ToS' component='div' />
-                            {/* To-Do: This error isn't showing... */}
-                        </div>
-                        <button type="submit">Submit</button>
-                    </Form>
+                    </>
+                    
                 )
             }}
         />
     )
 }
 
-const onSubmit = (formValues, actions) => {
-    const userToPost = {
-        name: formValues.name,
-        email: formValues.email,
-        password: formValues.password,
-    };
-
-    axios.post("https://reqres.in/api/users")
-        .then(response => {
-            console.log(response);
-        })
-        .catch(error => {
-            debugger
-        })
-};
-
 const validationSchema = yup.object().shape({
     name: yup.string().required("Please enter a name."),
     email: yup.string().required("Please enter an email adresss."),
     password: yup.string().required("Please enter a password."),
-    ToS: yup.bool().required("You cannot submit unless you have agrees to the Terms of Service."),
+    ToS: yup.boolean().required("You cannot submit unless you have agrees to the Terms of Service."),
 });
