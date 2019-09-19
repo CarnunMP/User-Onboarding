@@ -17,6 +17,7 @@ export default function FormikForm(props) {
     const onSubmit = (formValues, actions) => {
         const userToPost = {
             name: formValues.name,
+            role: formValues.role,
             email: formValues.email,
             password: formValues.password,
         };
@@ -29,7 +30,7 @@ export default function FormikForm(props) {
             })
             .catch(error => {
                 debugger
-            })
+            });
     };
 
     return (
@@ -77,6 +78,7 @@ export default function FormikForm(props) {
                                 users.map(user => (
                                     <div key={user.id}>
                                         <span>User: {user.name}. </span>
+                                        <span>Role: {user.role}. </span>
                                         <span>Email: {user.email}. </span>
                                         <span>Id: {user.id}. </span>
                                     </div>
