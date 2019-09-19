@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Formik, Form, Field, ErrorMessage, setNestedObjectValues } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import axios from "axios";
 
@@ -39,20 +39,20 @@ export default function FormikForm(props) {
                 return(
                     <>
                         <Form>
-                            <div>
+                            <div className="field">
                                 <Field name="name" type="text" placeholder="Name" />
                                 <ErrorMessage name='name' component='div' />
                             </div>
-                            <div>
+                            <div className="field">
                                 <Field name="email" type="text" placeholder="Email" />
                                 <ErrorMessage name='email' component='div' />
                             </div>
-                            <div>
+                            <div className="field">
                                 <Field name="password" type="password" placeholder="Password" />
                                 <ErrorMessage name='password' component='div' />
                             </div>
-                            <div>
-                                I agree to the Terms of Service
+                            <div className="checkbox">
+                                <span>I agree to the Terms of Service</span>
                                 <Field name="ToS" type="checkbox"/>
                                 <ErrorMessage name='ToS' component='div' />
                                 {/* To-Do: This error isn't showing... */}
