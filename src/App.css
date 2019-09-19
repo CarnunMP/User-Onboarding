@@ -16,6 +16,11 @@ form {
   color: pink;
 }
 
+.field select {
+  width: 68%;
+  color: grey;
+}
+
 .checkbox {
   color: white;
   margin-bottom: 1rem;

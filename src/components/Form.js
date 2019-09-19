@@ -41,15 +41,24 @@ export default function FormikForm(props) {
                     <>
                         <Form>
                             <div className="field">
-                                <Field name="name" type="text" placeholder="Name" />
+                                <Field name="name" type="text" placeholder=" Name" />
                                 <ErrorMessage name='name' component='div' />
                             </div>
                             <div className="field">
-                                <Field name="email" type="text" placeholder="Email" />
+                                <select name="role">
+                                    <option>Choose Role</option>
+                                    <option>———</option>
+                                    <option>Student</option>
+                                    <option>Teacher</option>
+                                </select>
+                                <ErrorMessage name='role' component='div' />
+                            </div>
+                            <div className="field">
+                                <Field name="email" type="text" placeholder=" Email" />
                                 <ErrorMessage name='email' component='div' />
                             </div>
                             <div className="field">
-                                <Field name="password" type="password" placeholder="Password" />
+                                <Field name="password" type="password" placeholder=" Password" />
                                 <ErrorMessage name='password' component='div' />
                             </div>
                             <div className="checkbox">
@@ -83,6 +92,7 @@ export default function FormikForm(props) {
 
 const validationSchema = yup.object().shape({
     name: yup.string().required("Please enter a name."),
+    role: yup.object().required("yo"),
     email: yup.string().required("Please enter an email adresss."),
     password: yup.string().required("Please enter a password."),
     tos: yup.boolean()
