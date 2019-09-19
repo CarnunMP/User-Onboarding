@@ -10,6 +10,7 @@ export default function FormikForm(props) {
         name: "",
         email: "",
         password: "",
+        tos: false,
     }
 
     const onSubmit = (formValues, actions) => {
@@ -52,9 +53,11 @@ export default function FormikForm(props) {
                                 <ErrorMessage name='password' component='div' />
                             </div>
                             <div className="checkbox">
-                                <span>I agree to the Terms of Service</span>
-                                <Field name="ToS" type="checkbox"/>
-                                <ErrorMessage name='ToS' component='div' />
+                                <div>
+                                    <span>I agree to the Terms of Service</span>
+                                    <Field name="tos" type="checkbox"/>
+                                </div>
+                                <ErrorMessage name='tos' component='div' />
                                 {/* To-Do: This error isn't showing... */}
                             </div>
                             <button type="submit">Submit</button>
@@ -82,5 +85,10 @@ const validationSchema = yup.object().shape({
     name: yup.string().required("Please enter a name."),
     email: yup.string().required("Please enter an email adresss."),
     password: yup.string().required("Please enter a password."),
-    ToS: yup.boolean().required("You cannot submit unless you have agrees to the Terms of Service."),
+    tos: yup.boolean()
+        .test(
+            "tos",
+            "You cannot submit unless you have agreed to the Terms of Service.",
+            value => value)
+        .required("You cannot submit unless you have agreed to the Terms of Service."),
 });

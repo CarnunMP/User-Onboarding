@@ -20,7 +20,8 @@ form {
   color: white;
   margin-bottom: 1rem;
   display: flex;
-  align-items: baseline;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .checkbox input {
@@ -28,4 +29,8 @@ form {
   position: relative;
   top: 2px;
   left: 5px;
+}
+
+.checkbox div:nth-of-type(2) {
+  color: pink;
 }
