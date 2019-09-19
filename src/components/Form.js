@@ -8,6 +8,7 @@ export default function FormikForm(props) {
     
     const initialValues = {
         name: "",
+        role: "Choose Role",
         email: "",
         password: "",
         tos: false,
@@ -45,12 +46,12 @@ export default function FormikForm(props) {
                                 <ErrorMessage name='name' component='div' />
                             </div>
                             <div className="field">
-                                <select name="role">
-                                    <option>Choose Role</option>
-                                    <option>———</option>
-                                    <option>Student</option>
-                                    <option>Teacher</option>
-                                </select>
+                                <Field component="select" name="role">
+                                    <option value={null}>Choose Role</option>
+                                    <option value={null}>———</option>
+                                    <option value="Student">Student</option>
+                                    <option value="Teacher">Teacher</option>
+                                </Field>
                                 <ErrorMessage name='role' component='div' />
                             </div>
                             <div className="field">
@@ -92,13 +93,18 @@ export default function FormikForm(props) {
 
 const validationSchema = yup.object().shape({
     name: yup.string().required("Please enter a name."),
-    role: yup.object().required("yo"),
+    role: yup.string()
+        .test(
+            "role",
+            "Please select a role.",
+            value => value === "Student" || value === "Teacher"
+        ),
     email: yup.string().required("Please enter an email adresss."),
     password: yup.string().required("Please enter a password."),
     tos: yup.boolean()
         .test(
             "tos",
-            "You cannot submit unless you have agreed to the Terms of Service.",
-            value => value)
-        .required("You cannot submit unless you have agreed to the Terms of Service."),
+            "You must agree to the Terms of Service.",
+            value => value
+        ),
 });
