@@ -53,7 +53,7 @@ const onSubmit = (formValues, actions) => {
 
     axios.post("https://reqres.in/api/users")
         .then(response => {
-            debugger
+            console.log(response);
         })
         .catch(error => {
             debugger
